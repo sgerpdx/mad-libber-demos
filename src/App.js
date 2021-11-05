@@ -18,7 +18,7 @@ function App() {
   };
 
   const submitPrompt = async () => {
-    const charName = await generateText();
+    const charName = await generateText(wordOne, wordTwo);
     setTextRes(charName);
     console.log("action");
   };

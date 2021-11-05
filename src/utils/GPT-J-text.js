@@ -1,12 +1,29 @@
 import request from "superagent";
 
-const URL = `http://api.vicgalle.net:5000/generate?context=Five%20dolphins%20flew%20through%20a%20shopping%20mall.&token_max_length=512&temperature=1&top_p=0.9`;
+// URL format with context and params:
+// `http://api.vicgalle.net:5000/generate?context=${word1}%20${word2}.&token_max_length=512&temperature=1&top_p=0.9`
 
-export async function generateText() {
-  const response = await request.get("https://swapi.dev/api/people/1");
-  const newText = response.body;
-  console.log(newText);
-  return newText.name;
+export async function generateText(word1, word2) {
+  const baseURL = `http://api.vicgalle.net:5000/generate`;
+
+  const params = {
+    context: `${word1} ${word2}`,
+    token_max_length: 512,
+    temperature: 1.0,
+    top_p: 0.9,
+  };
+
+  const headers = {
+    Accept: "application/json",
+  };
+
+  const response = await request.post(baseURL, {
+    json: params,
+    headers: headers,
+  });
+  const newStory = response.body;
+  console.log(newStory);
+  return newStory.text;
 }
 
 //// syntax for setting headers:
@@ -17,5 +34,3 @@ export async function generateText() {
 //    .then(callback);
 
 //    .set("Access-Control-Allow-Origin", "*");
-
-// `http://api.vicgalle.net:5000/generate?context=${word1}%20${word2}.&token_max_length=512&temperature=1&top_p=0.9`
